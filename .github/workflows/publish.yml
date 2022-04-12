@@ -9,11 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1.0.6
+      - name: Checking out GitHub repository
+        uses: actions/checkout@v3
+      - name: Installing Rust toolchain
+        uses: actions-rs/toolchain@v1.0.6
         with:
           toolchain: stable
-      - name: Run scraper
+      - name: Build and run scraper
         run: |
           cd $GITHUB_WORKSPACE
           cargo run
@@ -22,3 +24,9 @@ jobs:
         with:
           name: plugins_list.json
           path: plugins.json
+      - name: Create a Release
+        uses: fnkr/github-action-ghr@v1.3
+        env:
+          GHR_PATH: plugins.json
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
