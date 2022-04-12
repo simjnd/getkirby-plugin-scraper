@@ -24,9 +24,16 @@ jobs:
         with:
           name: plugins_list.json
           path: plugins.json
-      - name: Create a Release
-        uses: fnkr/github-action-ghr@v1.3
-        env:
-          GHR_PATH: plugins.json
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
+      - name: GitHub Release Action
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: plugins.json
+          name: ${{ steps.date.output.date }}
+          body: "Plugins list scraped from getkirby.com on ${{ steps.date.output.date }}"
+          tag: ${{ steps.date.output.date }}
+          allowUpdates: true
+          token: ${{ secrets.RELEASE_TOKEN }}
+          
