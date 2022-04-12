@@ -32,7 +32,7 @@ jobs:
         with:
           artifacts: plugins.json
           name: ${{ env.NOW }}
-          body: "Plugins list scraped from getkirby.com on ${{ steps.date.output.date }}"
+          body: "Plugins list scraped from getkirby.com on ${{ env.NOW }}"
           tag: ${{ env.NOW }}
           allowUpdates: true
           token: ${{ secrets.RELEASE_TOKEN }}
