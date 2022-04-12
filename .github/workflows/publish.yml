@@ -1,0 +1,22 @@
+name: Run scraper and publish plugins list as build artifact
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+      - name: Run scraper
+        run: |
+          cd $GITHUB_WORKSPACE
+          cargo run
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: plugins_list.json
+          path: plugins.json
