@@ -26,14 +26,14 @@ jobs:
           path: plugins.json
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
+        run: echo "NOW::$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       - name: GitHub Release Action
         uses: ncipollo/release-action@v1
         with:
           artifacts: plugins.json
-          name: ${{ steps.date.output.date }}
+          name: ${{ env.NOW }}
           body: "Plugins list scraped from getkirby.com on ${{ steps.date.output.date }}"
-          tag: ${{ steps.date.output.date }}
+          tag: ${{ env.NOW }}
           allowUpdates: true
           token: ${{ secrets.RELEASE_TOKEN }}
           
